@@ -1,0 +1,35 @@
+{
+  "name": "online-log",
+  "version": "1.0.0",
+  "description": "module to generate an online endpoint to visualize application log",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "dev": "nodemon -e '*' index "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pabloiea1995/online-log.git"
+  },
+  "keywords": [
+    "log",
+    "web",
+    "logger",
+    "express",
+    "online",
+    "onlinelog"
+  ],
+  "author": "Pablo Sánchez MV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pabloiea1995/online-log/issues"
+  },
+  "homepage": "https://github.com/pabloiea1995/online-log#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
