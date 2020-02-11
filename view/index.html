@@ -1,14 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="es">
 
-<html>
 <head>
-    
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!-- Responsive meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/view.css">
+    <style>
+    </style>
 </head>
+
 <body>
-    <div id="context">
+
+    <div id="menu-bar" onclick="hideMenu()">
+        <div>
+        <ul>
+            <li><span class="info listBudge">INFO<span class="logCounter" id="info"></span></span></li>
+            <li><span class="trace listBudge">TRACE<span class="logCounter" id="trace"></span></span></li>
+            <li><span class="error listBudge">ERROR<span class="logCounter" id="error"></span></span></li>
+            <li><span class="warning listBudge">WARN<span class="logCounter" id="warning"></span></span></li>
+            <li><span class="debug listBudge">DEBUG<span class="logCounter" id="debug"></span></span></li>
+            <li><span class="fatal listBudge">FATAL<span class="logCounter" id="fatal"></span></span></li>
+
+        </ul>
+
+        <img id="loader" src="/loader.gif">
+        <span id="updatedSpan">updated</span>
+
+        <table id="distrTable">
+            <tr>
+                <td id="infoTd"></td>
+                <td id="traceTd"></td>
+                <td id="errorTd"></td>
+                <td id="warningTd"></td>
+                <td id="debugTd"></td>
+                <td id="fatalTd"></td>
+            </tr>
+
+
+
+        </table>
+    </div>
+
+    </div>
+
+    <div id="logCanvas">
 
     </div>
 </body>
-Hello
+
 <script type="text/javascript" src="/index.js"></script>
+
 </html>

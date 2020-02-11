@@ -1,2 +1,2 @@
 # online-log
-NPM module to generate online log of your applications
+NPM module to generate online log for your applications
