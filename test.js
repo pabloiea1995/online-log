@@ -1,15 +1,4 @@
-logger = require("./lib/logger");
+var arr = [1,2,3]
 
-logger.log("ALL", "fwnf");
-logger.log("ALL", "fwnf");
-logger.log("ALL", "fwnf");
-logger.log("ALL", "fwnf");
-//console.log("all".toLocaleUpperCase().localeCompare("ALL"))
-//console.log(logger.logger)
-
-
-
-logger.printlog("uid")
-
-
-
+var new_arr = arr.splice(1,2)
+console.log(arr)

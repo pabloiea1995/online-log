@@ -15,9 +15,11 @@ li{
 }
 #logCanvas{margin: 8px;padding-top: 105px;max-height: 900px;overflow-x: scroll;}
 p{
-   
-    font-family: "Courier", Times, serif;
-
+   font-family: "Courier", Times, serif;
+   -webkit-transition: background-color 0.2s ease-out;
+   -moz-transition: background-color 0.2s ease-out;
+   -o-transition: background-color 0.2s ease-out;
+   transition: background-color 0.2s cubic-bezier(0.4, 0, 1, 1);
 }
 p:hover{
 

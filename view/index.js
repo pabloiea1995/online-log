@@ -267,18 +267,18 @@ function displayMenu(element){
 
     var pos = element;
 
-   
+    var elId = element.toElement.id.toString()
     var menuDiv = document.createElement("div");
     menuDiv.setAttribute("id", "rightMenu")
     menuDiv.style.top = pos.clientY+"px";
     menuDiv.style.left = pos.clientX+"px";
     target.style.backgroundColor ="#b8c0e6";
-    menuDiv.style.display = "inline-block"
-    menuDiv.style.position = "absolute"
+    menuDiv.style.display = "inline-block";
+    menuDiv.style.position = "absolute";
     menuDiv.innerHTML = `
     <ul class="menuList">
     <li class="rightMenu-option"> Highlight similar</li>
-    <li class="rightMenu-option" onclick="findNext(${element.toElement.id})"> Find next</li>
+    <li class="rightMenu-option" onclick="findNext('${elId}')"> Find next</li>
     <li class="rightMenu-option"> Find previous</li>
     <li class="rightMenu-option"> Checkout on google</li>
     <li class="rightMenu-option" onclick="hideMenu()"> x Close menu</li>
@@ -292,6 +292,11 @@ function displayMenu(element){
 
 }
 //TODO: Funciones del menu lateral
+/*
+    - Find previous
+    - Highligh all
+    - Checkout on google
+*/
 function hideMenu(){
 
     var body = document.getElementById("logCanvas");
@@ -308,23 +313,28 @@ function hideMenu(){
 
 }
 function findNext(id){
-
+    /*
     if(id.length && id.length > 0){
         id = id[0];
     }
+    */
+    id = document.getElementById(id);
     var text = id.innerHTML.split("--")[2];
     var body = document.getElementById("logCanvas");
     var childrenList = body.children
+    try{
     for(var element in childrenList){
-        if(childrenList[element].id.localeCompare(id.id) === 0){
+        if(childrenList[element].id.localeCompare(id.id) === 0 ){
 
             for(var i = parseInt(element) +1; i < childrenList.length; i++){
 
                 if(childrenList[i].innerHTML.split("--")[2].localeCompare(text) === 0){
 
                     childrenList[i].style.backgroundColor = "yellow";
-
                     hideMenu();
+                    setTimeout(function(){childrenList[i].style.backgroundColor = "white"}, 2000)
+
+                    
                     //location.href = "#" + childrenList[i].id;
                     return;
                 }
@@ -335,6 +345,11 @@ function findNext(id){
        
 
     }
+    }
+    catch{
+        hideMenu();
+    }
+    
     return;
    
     
