@@ -12,11 +12,19 @@ function trasparentMenu(){
 
 
 }
+function updateFrequency(value){
+    frequency = value
+    console.log("actualizando frecuencia")
+    clearInterval(updateInterval);
+    load();
+}
 
+let updateInterval;
 var lastUid = ""
 var frequency = 5000
 var displayedMenu = false;
 var lastTarget;
+let currentFilters = [];
 var styleProps = {
 
     levelColors: {
@@ -77,9 +85,26 @@ function load() {
     
     loadStyles();
     httpGet();
-    setInterval(updateLog, frequency);
-}
+    updateInterval = setInterval(updateLog, frequency);
 
+}
+function clearCanvas(){
+
+    var body = document.getElementById("logCanvas").innerHTML = "";
+    logCounter = {
+
+        trace: 0,
+            info: 0,
+            debug: 0,
+            warning: 0,
+            error: 0,
+            fatal: 0,
+            total: 0,
+    
+    }
+    updateCounters();
+    updateDistTable();
+}
 function renderContent(content) {
 
 
@@ -88,12 +113,19 @@ function renderContent(content) {
         content = JSON.parse(content);
         var body = document.getElementById("logCanvas");
         //console.log(content.content)
-
+        /*
+        if(content.uid.length === 0){
+            clearCanvas()
+            return;
+        }*/
+       
 
         for (var i = 0; i < content.level.length; i++) {
 
-            logCounter.total++;
+           
+            
             if (!printedUids.includes(content.uid[i])) {
+                 logCounter.total++;
                 //console.log(i);
                 p = document.createElement("P");
                 var levelClassName = "";
@@ -132,13 +164,16 @@ function renderContent(content) {
                 p.innerHTML = `${content.dateTime[i]} -- <span class="${levelClassName}">${content.level[i]}:</span> <span class="process">[${content.process[i]}]</span> -- ${content.content[i]}`;
                 p.style.borderRight = `solid ${styleProps.levelColors[levelClassName]}`;
                 p.setAttribute("id", content.uid[i])
+                p.setAttribute("onClick", `addfilterLevel(this, ${levelClassName + "Log"})`)
+                
                 p.addEventListener("click",displayMenu) 
                 updateCounters();
 
                 body.appendChild(p)
 
-                printedUids.push[content.uid[i]]
+                printedUids.push(content.uid[i])
                 
+                filterLevels()
             }
         }
         updateDistTable();
@@ -159,7 +194,7 @@ function httpGet() {
         renderContent(xmlHttp.responseText);
 
         lastUid = JSON.parse(xmlHttp.responseText).uid[JSON.parse(xmlHttp.responseText).uid.length - 1]
-        console.log(lastUid)
+        //console.log(lastUid)
         //setInterval(updateLog, frequency)
 
     }
@@ -225,6 +260,16 @@ function updateDistTable(){
 
     var tableWidth = document.getElementById("distrTable").offsetWidth;
 
+    if(logCounter.total === 0){
+        document.getElementById("distrTable").style.display = "none";
+        return;
+
+    }
+    else{
+        document.getElementById("distrTable").style.display = "inline-block";
+
+    }
+
     var totalLogNum = logCounter.total;
 
   
@@ -234,7 +279,7 @@ function updateDistTable(){
     for(var level in logCounter){
 
         if(level != "total"){
-
+            
             element =  document.getElementById(level+ "Td");
             width = tableWidth * (logCounter[level]/totalLogNum);
             if((logCounter[level]/totalLogNum)*100 > 1){
@@ -275,12 +320,21 @@ function displayMenu(element){
     target.style.backgroundColor ="#b8c0e6";
     menuDiv.style.display = "inline-block";
     menuDiv.style.position = "absolute";
+    
+    //TODO: Funciones Highlight similar, find Previus, Checkout on google
     menuDiv.innerHTML = `
     <ul class="menuList">
     <li class="rightMenu-option"> Highlight similar</li>
     <li class="rightMenu-option" onclick="findNext('${elId}')"> Find next</li>
     <li class="rightMenu-option"> Find previous</li>
     <li class="rightMenu-option"> Checkout on google</li>
+    <li class="rightMenu-option" onclick="hideMenu()"> x Close menu</li>
+    </ul>
+    `
+    menuDiv.innerHTML = `
+    <ul class="menuList">
+    <li class="rightMenu-option" onclick="findNext('${elId}')"> Find next</li>
+    <li class="rightMenu-option" onclick="clearLog()"> Clear Log</li>
     <li class="rightMenu-option" onclick="hideMenu()"> x Close menu</li>
     </ul>
     `
@@ -356,5 +410,62 @@ function findNext(id){
 
     console.log("")
 
+
+}
+
+function clearLog(){
+
+    changeOpacityUpdateSpan()   
+    //setTimeout(changeOpacityUpdateSpan(0), 3000)
+
+    var xmlHttp = new XMLHttpRequest();
+    var loader =  document.getElementById("loader");
+    loader.style.display = "inline"
+    xmlHttp.open("GET", "/online-log/clear-log/",false); // false for synchronous request
+    xmlHttp.send(null);
+    loader.style.display = "none"
+    //console.log(xmlHttp.responseText)
+    clearCanvas()
+    
+    return 
+}
+
+
+//add o remove filter from filtered list and change badge style
+function addFilterLevel(badge, level){
+
+    
+
+    if(currentFilters.includes(level)){
+
+        badge.classList.remove("unactive");
+
+        currentFilters = currentFilters.filter((item) =>(item != level))
+    }else{
+        badge.classList.add("unactive");
+
+        currentFilters.push(level);
+    }
+    console.log(currentFilters);
+
+    filterLevels()
+}
+
+function filterLevels(){
+
+    var body = document.getElementById("logCanvas");
+    body.childNodes.forEach((item, index) =>{
+        if(index >0){
+            if(currentFilters.includes( item.getAttribute("class"))){
+                item.style.display = "none";
+        }
+        else{
+            item.style.display = "block";
+        }
+        }
+        
+    })
+    
+    return;
 
 }

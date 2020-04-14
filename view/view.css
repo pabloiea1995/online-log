@@ -20,6 +20,8 @@ p{
    -moz-transition: background-color 0.2s ease-out;
    -o-transition: background-color 0.2s ease-out;
    transition: background-color 0.2s cubic-bezier(0.4, 0, 1, 1);
+   line-height: 1.7;
+
 }
 p:hover{
 
@@ -71,7 +73,12 @@ p:hover{
     transition: border-width 0.1s ease-out;
 }
 
-
+.unactive{
+    opacity: 0.5;
+}
+.clickable:hover{
+    cursor:pointer
+}
 .menuList{
     /* padding: 11px; */
     margin: 0px;
@@ -133,4 +140,13 @@ td{
     -o-transition: opacity 2s ease-out;
     transition: opacity 0.5s ease-out;
     margin-left: 4%;
+}
+.frequencySelector{
+    font-family: "Courier", Times, serif;
+    display: inline-block;
+    position: absolute;
+    top: 77px;
+    left: 36px;
+
+
 }
