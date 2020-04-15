@@ -7,21 +7,216 @@
     <!-- Responsive meta tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="/view.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/view.css">-->
     <style>
+        body {
+            margin: 0
+        }
+
+        ul {
+            margin-top: 30px;
+            float: left;
+        }
+
+        table {
+            height: 35px;
+            display: inline-block;
+            width: 30%;
+            margin-top: 22.5px;
+            background-color: #f1f2f3;
+            /* float: right; */
+            margin-left: 3%;
+            /* border: solid 1px grey; */
+        }
+
+        li {
+            font-family: "Courier", Times, serif;
+            list-style-type: none;
+            display: inline;
+            margin-right: 8px;
+        }
+
+        #logCanvas {
+            margin: 8px;
+            padding-top: 105px;
+            max-height: 900px;
+            overflow-x: scroll;
+        }
+
+        p {
+            font-family: "Courier", Times, serif;
+            -webkit-transition: background-color 0.2s ease-out;
+            -moz-transition: background-color 0.2s ease-out;
+            -o-transition: background-color 0.2s ease-out;
+            transition: background-color 0.2s cubic-bezier(0.4, 0, 1, 1);
+            line-height: 1.7;
+
+        }
+
+        p:hover {
+
+            border-right: solid 50px;
+
+        }
+
+        span {
+            border-radius: 5px;
+            color: #f7f7f7;
+            padding: 3px;
+            padding-left: 4px;
+        }
+
+        span#trace {
+            color: black;
+        }
+
+        span.listBudge {
+            font-size: 1.6rem;
+        }
+
+        span#warning {
+            color: black;
+        }
+
+        .process {
+            color: rgb(24, 160, 91);
+        }
+
+        #menu-bar {
+            height: 116px;
+            background-color: #f1f2f3;
+            position: fixed;
+            /* Set the navbar to fixed position */
+            top: 0;
+            /* Position the navbar at the top of the page */
+            width: 100%;
+            border-bottom: solid 0.8px #bdbbbb;
+            -webkit-transition: background 1s ease-out;
+            -moz-transition: background 1s ease-out;
+            -o-transition: background 1s ease-out;
+            transition: background 1s ease-out;
+        }
+
+
+        p:hover {
+            border-width: 50px !important;
+            background-color: #b8c0e6 !important;
+            cursor: pointer;
+            -webkit-transition: border-width 0.3s ease-out;
+            -moz-transition: border-width 0.3s ease-out;
+            -o-transition: border-width 0.3s ease-out;
+            transition: border-width 0.1s ease-out;
+        }
+
+        .unactive {
+            opacity: 0.5;
+        }
+
+        .clickable:hover {
+            cursor: pointer
+        }
+
+        .menuList {
+            /* padding: 11px; */
+            margin: 0px;
+            border: solid 0.5px;
+            padding-left: 0px;
+        }
+
+        .rightMenu-option {
+            display: block;
+            padding: 10px;
+            border-bottom: solid 0.5px;
+            padding-bottom: 5px;
+            /* padding-top: 5px; */
+            /* margin-left: 5px; */
+            margin-right: 0;
+            /* border-top: solid 0.5px; */
+        }
+
+        .rightMenu-option:hover {
+            background-color: #bbb8b8;
+            cursor: pointer;
+        }
+
+        #rightMenu {
+            background-color: #e0e0e0;
+        }
+
+        tr {
+            height: 33px;
+            border-spacing: 0;
+            /* margin-bottom: 6px; */
+            font-family: "Courier", Times, serif;
+            text-align: center;
+            color: #100c0c;
+        }
+
+        td {
+            -webkit-transition: width 0.5s ease-out;
+            -moz-transition: width 0.5s ease-out;
+            -o-transition: width 0.5s ease-out;
+            transition: width 0.5s ease-out;
+        }
+
+        #loader {
+            display: inline;
+            float: left;
+            height: 40%;
+            /* padding-top: 10px; */
+            display: none;
+            padding-left: 35px;
+            position: absolute;
+            /* top: 21px; */
+            /* left: 765px; */
+            margin-top: 30px;
+            margin-left: 2.5%;
+        }
+
+        #updatedSpan {
+            font-family: "Courier", Times, serif;
+            background-color: #78a3c7;
+            /* position: absolute; */
+            /* top: 32px; */
+            /* left: 798px; */
+            display: inline;
+            opacity: 0;
+            -webkit-transition: opacity 2s ease-out;
+            -moz-transition: opacity 2s ease-out;
+            -o-transition: opacity 2s ease-out;
+            transition: opacity 0.5s ease-out;
+            margin-left: 4%;
+        }
+
+        .frequencySelector {
+            font-family: "Courier", Times, serif;
+            display: inline-block;
+            position: absolute;
+            top: 77px;
+            left: 36px;
+
+
+        }
     </style>
 </head>
+
 
 <body>
     <div id="menu-bar" onclick="hideMenu()">
         <div>
             <ul>
-                <li><span onclick="addFilterLevel(this, 'infoLog')" class="info listBudge clickable">INFO<span class="logCounter" id="info"></span></span></li>
-                <li><span onclick="addFilterLevel(this, 'traceLog')" class="trace listBudge clickable">TRACE<span class="logCounter" id="trace"></span></span></li>
-                <li><span onclick="addFilterLevel(this, 'errorLog')" class="error listBudge clickable">ERROR<span class="logCounter" id="error"></span></span></li>
-                <li><span onclick="addFilterLevel(this, 'warningLog')" class="warning listBudge clickable">WARN<span class="logCounter" id="warning"></span></span></li>
-                <li><span onclick="addFilterLevel(this, 'debugLog')" class="debug listBudge clickable">DEBUG<span class="logCounter" id="debug"></span></span></li>
-                <li><span onclick="addFilterLevel(this, 'fatalLog')" class="fatal listBudge clickable">FATAL<span class="logCounter" id="fatal"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'infoLog')" class="info listBudge clickable">INFO<span
+                            class="logCounter" id="info"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'traceLog')" class="trace listBudge clickable">TRACE<span
+                            class="logCounter" id="trace"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'errorLog')" class="error listBudge clickable">ERROR<span
+                            class="logCounter" id="error"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'warningLog')" class="warning listBudge clickable">WARN<span
+                            class="logCounter" id="warning"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'debugLog')" class="debug listBudge clickable">DEBUG<span
+                            class="logCounter" id="debug"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'fatalLog')" class="fatal listBudge clickable">FATAL<span
+                            class="logCounter" id="fatal"></span></span></li>
 
             </ul>
             <div class="frequencySelector">
@@ -33,7 +228,7 @@
 
                 </select>
             </div>
-            <img id="loader" src="/loader.gif">
+            <img id="loader">
             <span id="updatedSpan">updated</span>
 
             <table id="distrTable">
@@ -49,7 +244,7 @@
 
 
             </table>
-            
+
 
         </div>
 
@@ -60,6 +255,511 @@
     </div>
 </body>
 
-<script type="text/javascript" src="/index.js"></script>
+<script type="text/javascript">
+
+
+    window.onload = load;
+
+    window.addEventListener("scroll", trasparentMenu)
+
+    function trasparentMenu() {
+
+        document.getElementById("menu-bar").style.backgroundColor = "#f1f2f3b0"
+
+        setTimeout(function () { document.getElementById("menu-bar").style.backgroundColor = "#f1f2f3" }, 2000);
+
+
+
+    }
+    function updateFrequency(value) {
+        frequency = value
+        clearInterval(updateInterval);
+        load();
+    }
+
+    let updateInterval;
+    var lastUid = ""
+    var frequency = 5000
+    var displayedMenu = false;
+    var lastTarget;
+    let currentFilters = [];
+    //default and fallback styles
+    var styleProps = {
+
+        levelsColors: {
+
+            trace: "#d8d7d7",
+            info: "#365f92",
+            debug: "#007d3c",
+            warning: "#e0da1e",
+            error: "#ff5353",
+            fatal: "#f00000"
+
+        }
+
+
+
+    };
+
+    //Request to get styles
+    (function getStyles() {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "/online-log/styles", false); // false for synchronous request
+        xmlHttp.send(null);
+
+        styleProps = JSON.parse(xmlHttp.responseText)
+
+
+    }());
+
+
+    var logCounter = {
+
+        trace: 0,
+        info: 0,
+        debug: 0,
+        warning: 0,
+        error: 0,
+        fatal: 0,
+        total: 0,
+
+    }
+    function loadStyles() {
+
+        document.getElementsByTagName('style')[0].innerHTML += `
+    
+    .trace{
+        background-color:${styleProps.levelsColors.trace};
+        color: black;
+    }
+    .info{
+        background-color:${styleProps.levelsColors.info}
+    }
+    .debug{
+        background-color:${styleProps.levelsColors.debug}
+    }
+    .warning{
+        background-color:${styleProps.levelsColors.warning}; 
+        color: black;
+    }
+    .error{
+        background-color:${styleProps.levelsColors.error}
+    }
+    .fatal{
+        background-color:${styleProps.levelsColors.fatal}
+    }
+    
+    
+    `;
+    }
+    let printedUids = []
+    function load() {
+
+        loadStyles();
+        httpGet();
+        updateInterval = setInterval(updateLog, frequency);
+
+    }
+    function clearCanvas() {
+
+        var body = document.getElementById("logCanvas").innerHTML = "";
+        logCounter = {
+
+            trace: 0,
+            info: 0,
+            debug: 0,
+            warning: 0,
+            error: 0,
+            fatal: 0,
+            total: 0,
+
+        }
+        updateCounters();
+        updateDistTable();
+    }
+    function renderContent(content) {
+
+
+        if (content) {
+            //console.log(JSON.parse(content));
+            content = JSON.parse(content);
+            var body = document.getElementById("logCanvas");
+            //console.log(content.content)
+            /*
+            if(content.uid.length === 0){
+                clearCanvas()
+                return;
+            }*/
+
+
+            for (var i = 0; i < content.level.length; i++) {
+
+
+
+                if (!printedUids.includes(content.uid[i])) {
+                    logCounter.total++;
+                    //console.log(i);
+                    p = document.createElement("P");
+                    var levelClassName = "";
+                    switch (content.level[i]) {
+                        case "TRACE":
+                            levelClassName = "trace";
+                            logCounter.trace++;
+                            break;
+                        case "INFO":
+                            levelClassName = "info";
+                            logCounter.info++;
+                            break;
+                        case "DEBUG":
+                            levelClassName = "debug";
+                            logCounter.debug++;
+                            break;
+                        case "WARN":
+                            levelClassName = "warning";
+                            logCounter.warning++;
+                            break;
+                        case "ERROR":
+                            levelClassName = "error";
+                            logCounter.error++;
+                            break;
+                        case "FATAL":
+                            levelClassName = "fatal";
+                            logCounter.fatal++;
+                            break;
+                        case "ALL":
+                            levelClassName = "all";
+                            logCounter.all++;
+                            break;
+
+                    }
+                    p.className = levelClassName + "Log";
+                    //identify those message that are objects to pretify them
+                    if (content.content[i].substring(0, 8) === "[object]") {
+                        console.log("es objecto")
+                        let contenido = JSON.parse(content.content[i].substring(9));
+                        p.innerHTML = `${content.dateTime[i]} -- <span class="${levelClassName}">${content.level[i]}:</span> <span class="process">[${content.process[i]}]</span> -- <pre>${JSON.stringify(contenido, null, 2)}</pre>`;
+                    }
+                    else {
+                        p.innerHTML = `${content.dateTime[i]} -- <span class="${levelClassName}">${content.level[i]}:</span> <span class="process">[${content.process[i]}]</span> -- ${content.content[i]}`;
+
+                    } p.style.borderRight = `solid ${styleProps.levelsColors[levelClassName]}`;
+                    p.setAttribute("id", content.uid[i])
+
+                    p.addEventListener("click", displayMenu)
+                    updateCounters();
+
+                    body.appendChild(p)
+
+                    printedUids.push(content.uid[i])
+
+                    filterLevels()
+                }
+            }
+            updateDistTable();
+        }
+    }
+
+    function httpGet() {
+
+
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "/online-log", false); // false for synchronous request
+        xmlHttp.send(null);
+        //console.log(xmlHttp.responseText)
+        function reloadLog() {
+
+
+            renderContent(xmlHttp.responseText);
+
+            lastUid = JSON.parse(xmlHttp.responseText).uid[JSON.parse(xmlHttp.responseText).uid.length - 1]
+            //console.log(lastUid)
+            //setInterval(updateLog, frequency)
+
+        }
+        return reloadLog()//setInterval(reloadLog, frequency)
+
+    }
+
+
+    function changeOpacityUpdateSpan() {
+        var updateSpan = document.getElementById("updatedSpan");
+        updateSpan.style.opacity = "1";
+        setTimeout(function () {
+            updateSpan.style.opacity = "0"
+        }
+            , 1000)
+            ;
+        return
+    }
+
+
+    function updateLog() {
+
+
+        changeOpacityUpdateSpan()
+        //setTimeout(changeOpacityUpdateSpan(0), 3000)
+
+
+        var xmlHttp = new XMLHttpRequest();
+        var loader = document.getElementById("loader");
+        loader.style.display = "inline"
+        xmlHttp.open("GET", "/online-log/update/" + lastUid, false); // false for synchronous request
+        xmlHttp.send(null);
+        loader.style.display = "none"
+        //console.log(xmlHttp.responseText)
+        function reloadLog() {
+
+            if (JSON.parse(xmlHttp.responseText).uid[JSON.parse(xmlHttp.responseText).uid.length - 1]) {
+                lastUid = JSON.parse(xmlHttp.responseText).uid[JSON.parse(xmlHttp.responseText).uid.length - 1]
+            }
+
+            renderContent(xmlHttp.responseText);
+
+        }
+
+
+
+        return reloadLog()
+
+    }
+
+    function updateCounters() {
+
+        for (var counter in logCounter) {
+            if (document.getElementById(counter)) {
+                document.getElementById(counter).innerHTML = logCounter[counter];
+            }
+        }
+
+
+    }
+
+    function updateDistTable() {
+
+
+        var tableWidth = document.getElementById("distrTable").offsetWidth;
+
+        if (logCounter.total === 0) {
+            document.getElementById("distrTable").style.display = "none";
+            return;
+
+        }
+        else {
+            document.getElementById("distrTable").style.display = "inline-block";
+
+        }
+
+        var totalLogNum = logCounter.total;
+
+
+
+        var element;
+        var width = 0;
+        for (var level in logCounter) {
+
+            if (level != "total") {
+
+                element = document.getElementById(level + "Td");
+                width = tableWidth * (logCounter[level] / totalLogNum);
+                if ((logCounter[level] / totalLogNum) * 100 > 1) {
+                    element.innerHTML = `${(logCounter[level] / totalLogNum * 100).toFixed(2)} %`
+                }
+                element.style.width = width + "px";
+
+                element.style.backgroundColor = styleProps.levelsColors[level]
+            }
+
+        }
+
+
+
+
+
+    }
+
+    function displayMenu(element) {
+        var body = document.getElementById("logCanvas");
+        var m = document.getElementById("rightMenu");
+        var target = element.target;
+
+        if (displayedMenu && m && lastTarget) {
+
+            body.removeChild(m);
+            displayedMenu = false
+
+        }
+
+        var pos = element;
+
+        var elId = element.toElement.id.toString()
+        var menuDiv = document.createElement("div");
+        menuDiv.setAttribute("id", "rightMenu")
+        menuDiv.style.top = pos.clientY + "px";
+        menuDiv.style.left = pos.clientX + "px";
+        target.style.backgroundColor = "#b8c0e6";
+        menuDiv.style.display = "inline-block";
+        menuDiv.style.position = "absolute";
+
+        //TODO: Funciones Highlight similar, find Previus, Checkout on google
+        menuDiv.innerHTML = `
+    <ul class="menuList">
+    <li class="rightMenu-option"> Highlight similar</li>
+    <li class="rightMenu-option" onclick="findNext('${elId}')"> Find next</li>
+    <li class="rightMenu-option"> Find previous</li>
+    <li class="rightMenu-option"> Checkout on google</li>
+    <li class="rightMenu-option" onclick="hideMenu()"> x Close menu</li>
+    </ul>
+    `
+        menuDiv.innerHTML = `
+    <ul class="menuList">
+    <li class="rightMenu-option" onclick="findNext('${elId}')"> Find next</li>
+    <li class="rightMenu-option" onclick="clearLog()"> Clear Log</li>
+    <li class="rightMenu-option" onclick="hideMenu()"> x Close menu</li>
+    </ul>
+    `
+
+        body.appendChild(menuDiv)
+
+        displayedMenu = true;
+        lastTarget = target
+
+    }
+    //TODO: Funciones del menu lateral
+    /*
+        - Find previous
+        - Highligh all
+        - Checkout on google
+    */
+    function hideMenu() {
+
+        var body = document.getElementById("logCanvas");
+        var m = document.getElementById("rightMenu");
+
+
+        if (displayedMenu && m && lastTarget) {
+
+            body.removeChild(m);
+            displayedMenu = false
+            lastTarget.style.backgroundColor = "white"
+        }
+
+
+    }
+    function findNext(id) {
+        /*
+        if(id.length && id.length > 0){
+            id = id[0];
+        }
+        */
+        id = document.getElementById(id);
+        var text = id.innerHTML.split("--")[2];
+        var body = document.getElementById("logCanvas");
+        var childrenList = body.children
+        try {
+            for (var element in childrenList) {
+                if (childrenList[element].id.localeCompare(id.id) === 0) {
+
+                    for (var i = parseInt(element) + 1; i < childrenList.length; i++) {
+
+                        if (childrenList[i].innerHTML.split("--")[2].localeCompare(text) === 0) {
+
+                            childrenList[i].style.backgroundColor = "yellow";
+                            hideMenu();
+                            setTimeout(function () { childrenList[i].style.backgroundColor = "white" }, 2000)
+
+
+                            //location.href = "#" + childrenList[i].id;
+                            return;
+                        }
+                    }
+
+                }
+
+
+
+            }
+        }
+        catch{
+            hideMenu();
+        }
+
+        return;
+
+
+
+
+
+    }
+
+    function clearLog() {
+
+        changeOpacityUpdateSpan()
+        //setTimeout(changeOpacityUpdateSpan(0), 3000)
+
+        var xmlHttp = new XMLHttpRequest();
+        var loader = document.getElementById("loader");
+        loader.style.display = "inline"
+        xmlHttp.open("GET", "/online-log/clear-log/", false); // false for synchronous request
+        xmlHttp.send(null);
+        loader.style.display = "none"
+        //console.log(xmlHttp.responseText)
+        logCounter = {
+
+            trace: 0,
+            info: 0,
+            debug: 0,
+            warning: 0,
+            error: 0,
+            fatal: 0,
+            total: 0,
+
+        }
+        clearCanvas()
+        location.reload();
+
+        return
+    }
+
+
+    //add o remove filter from filtered list and change badge style
+    function addFilterLevel(badge, level) {
+
+
+
+        if (currentFilters.includes(level)) {
+
+            badge.classList.remove("unactive");
+
+            currentFilters = currentFilters.filter((item) => (item != level))
+        } else {
+            badge.classList.add("unactive");
+
+            currentFilters.push(level);
+        }
+
+        filterLevels()
+    }
+
+    function filterLevels() {
+
+        var body = document.getElementById("logCanvas");
+        body.childNodes.forEach((item, index) => {
+            if (index > 0) {
+                if (currentFilters.includes(item.getAttribute("class"))) {
+                    item.style.display = "none";
+                }
+                else {
+                    item.style.display = "block";
+                }
+            }
+
+        })
+
+        return;
+
+    }
+
+</script>
 
 </html>

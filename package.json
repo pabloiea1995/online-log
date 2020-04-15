@@ -1,7 +1,7 @@
 {
   "name": "online-log",
-  "version": "1.0.0",
-  "description": "module to generate an online endpoint to visualize application log",
+  "version": "0.1.11",
+  "description": "module to generate an online endpoint to visualize express application log",
   "main": "index.js",
   "scripts": {
     "test": "node index.js",
@@ -30,6 +30,6 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3"
   }
 }

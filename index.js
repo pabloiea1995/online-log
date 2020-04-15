@@ -1,19 +1,30 @@
-module.exports = (app) => {
+module.exports = (app, options) => {
+  
+  //Setting up route to app
+  
   var express = require('express');
-  //var bodyParser = require('body-parser');
+  
   var logger = require("./lib/logger")
-  //var app = express();
+  
   app.use(express.json());
+
   app.use(express.urlencoded({ extended: false }));
+
   var path = require('path');
 
 
   //logger.initialiceLogger({memory_lines_length:10});
-  logger.initialiceLogger();
+  logger.initialiceLogger(options);
 
   var indexRouter = require('./lib/routes');
+
   app.use('/online-log', indexRouter);
-  app.use(express.static(path.join(__dirname, '/view/')));
+
+  console.log(path.join(__dirname, '/view/'))
+
+  app.use(express.static(path.join(__dirname, 'node_modules/online-log/view/')));
+
+
   /*for( i = 0; i < 15; i++){
   
       logger.log("ERROR", `testlog ${i}`);

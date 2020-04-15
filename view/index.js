@@ -25,9 +25,10 @@ var frequency = 5000
 var displayedMenu = false;
 var lastTarget;
 let currentFilters = [];
+//default and fallback styles
 var styleProps = {
 
-    levelColors: {
+    levelsColors: {
 
         trace: "#d8d7d7",
         info: "#365f92",
@@ -41,6 +42,19 @@ var styleProps = {
 
 
 }
+
+//Request to get styles
+(function getStyles(){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "/online-log", false); // false for synchronous request
+    xmlHttp.send(null);
+   
+    styleProps = JSON.parse(xmlHttp.responseText)
+        
+
+}());
+
+
 var logCounter = {
 
     trace: 0,
@@ -54,7 +68,7 @@ var logCounter = {
 }
 function loadStyles() {
 
-    document.getElementsByTagName('style')[0].innerHTML = `
+    document.getElementsByTagName('style')[0].innerHTML += `
     
     .trace{
         background-color:${styleProps.levelColors.trace};
