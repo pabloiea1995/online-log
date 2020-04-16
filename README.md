@@ -14,8 +14,7 @@ NPM module to generate
 ![minified size](https://img.shields.io/badge/minified%20size-132%20kB-blue)  ![install size](https://img.shields.io/badge/install%20size-1.74%20MB-blue)  ![online-demo](https://img.shields.io/badge/demo-on--line-orange)  ![version](https://img.shields.io/badge/version-v1.0-green)
 
   
-  
-   ![enter image description here](https://cdn.worldvectorlogo.com/logos/visual-studio-code.svg =25x25)      Using  vscode? Install our online-log snippets extension on [vscode marketplace](https://marketplace.visualstudio.com/items?itemName=psanchezmvelarde.online-log-snnipets)
+  Using  vscode? Install our online-log snippets extension on [vscode marketplace](https://marketplace.visualstudio.com/items?itemName=psanchezmvelarde.online-log-snnipets)
    
   
 
