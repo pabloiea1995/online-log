@@ -1,12 +1,4 @@
-# online-log
 
-![minified size](https://img.shields.io/badge/minified%20size-132%20kB-blue) ![install size](https://img.shields.io/badge/install%20size-1.74%20MB-blue) ![online-demo](https://img.shields.io/badge/demo-on--line-orange) ![version](https://img.shields.io/badge/version-v1.0-green) 
-
-
-
-
-
-NPM module to generate
 # online-log
 
   
