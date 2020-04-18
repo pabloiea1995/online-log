@@ -1,6 +1,6 @@
 {
   "name": "online-log",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "module to generate an online endpoint to visualize express application log",
   "main": "index.js",
   "scripts": {

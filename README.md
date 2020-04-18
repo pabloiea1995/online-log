@@ -460,10 +460,10 @@ In future versions there will be more options, such as authentication enable (wi
 | Param | type | description |
 | -- | -- | -- |
 | styles.levelsColors | Object | Defines the color of each log level |
-| memory_lines_length | Int | Set max number log entries stored on memory 
-| enable_console_print | Boolean | Enables the cosole printing of entries. By default false
-| enable_colorful_console | Boolean | Enables the color style on console printing
-| log_level | String | Established the minimum log level to register and show
+| memory_lines_length | Int | Set max number log entries stored on memory |
+| enable_console_print | Boolean | Enables the cosole printing of entries. By default false |
+| enable_colorful_console | Boolean | Enables the color style on console printing |
+| log_level | String | Established the minimum log level to register and show |
 
 Example of configuration object:
 
