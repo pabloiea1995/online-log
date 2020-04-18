@@ -52,13 +52,14 @@
             line-height: 1.7;
 
         }
-        #link{
-            font-family: "Courier", Times, serif;
-            margin-left:2rem
 
+        #link {
+            font-family: "Courier", Times, serif;
+            margin-left: 2rem
         }
-        #link:hover{
-            cursor:pointer;
+
+        #link:hover {
+            cursor: pointer;
         }
 
         p:hover {
@@ -205,6 +206,18 @@
 
 
         }
+
+        .un-active-level {
+            opacity: 0.5;
+            text-decoration: line-through;
+
+        }
+
+        .un-active-level:hover {
+            opacity: 0.5;
+            text-decoration: line-through;
+            cursor: not-allowed !important;
+        }
     </style>
 </head>
 
@@ -213,16 +226,17 @@
     <div id="menu-bar" onclick="hideMenu()">
         <div>
             <ul>
-                <li><span onclick="addFilterLevel(this, 'infoLog')" class="info listBudge clickable">INFO<span
-                            class="logCounter" id="info"></span></span></li>
+
                 <li><span onclick="addFilterLevel(this, 'traceLog')" class="trace listBudge clickable">TRACE<span
                             class="logCounter" id="trace"></span></span></li>
-                <li><span onclick="addFilterLevel(this, 'errorLog')" class="error listBudge clickable">ERROR<span
-                            class="logCounter" id="error"></span></span></li>
-                <li><span onclick="addFilterLevel(this, 'warningLog')" class="warning listBudge clickable">WARN<span
-                            class="logCounter" id="warning"></span></span></li>
                 <li><span onclick="addFilterLevel(this, 'debugLog')" class="debug listBudge clickable">DEBUG<span
                             class="logCounter" id="debug"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'infoLog')" class="info listBudge clickable">INFO<span
+                            class="logCounter" id="info"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'warningLog')" class="warning listBudge clickable">WARN<span
+                            class="logCounter" id="warning"></span></span></li>
+                <li><span onclick="addFilterLevel(this, 'errorLog')" class="error listBudge clickable">ERROR<span
+                            class="logCounter" id="error"></span></span></li>
                 <li><span onclick="addFilterLevel(this, 'fatalLog')" class="fatal listBudge clickable">FATAL<span
                             class="logCounter" id="fatal"></span></span></li>
 
@@ -260,10 +274,12 @@
 
     <div id="logCanvas">
 
-    </div><footer>
-        <hr/>
-        <a id="link" target="_blank" href="https://www.npmjs.com/package/online-log">https://www.npmjs.com/package/online-log</a>
-        
+    </div>
+    <footer>
+        <hr />
+        <a id="link" target="_blank"
+            href="https://www.npmjs.com/package/online-log">https://www.npmjs.com/package/online-log</a>
+
     </footer>
 </body>
 
@@ -291,13 +307,15 @@
     }
 
     let updateInterval;
-    var lastUid = ""
-    var frequency = 5000
-    var displayedMenu = false;
-    var lastTarget;
+    let scrolled = false;
+    let log_level;
+    let lastUid = "";
+    let frequency = 5000;
+    let displayedMenu = false;
+    let lastTarget;
     let currentFilters = [];
     //default and fallback styles
-    var styleProps = {
+    let styleProps = {
 
         levelsColors: {
 
@@ -315,12 +333,16 @@
     };
 
     //Request to get styles
-    (function getStyles() {
+    (function getOptions() {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "/online-log/styles", false); // false for synchronous request
+        xmlHttp.open("GET", "/online-log/options", false); // false for synchronous request
         xmlHttp.send(null);
 
-        styleProps = JSON.parse(xmlHttp.responseText)
+        const json = JSON.parse(xmlHttp.responseText)
+        styleProps = json.styles
+        log_level = json.log_level
+        //console.log(log_level);
+        evaluateLogLevel();
 
 
     }());
@@ -337,7 +359,26 @@
         total: 0,
 
     }
+
+    function evaluateLogLevel() {
+
+        const logLevels = ["ALL", "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"];
+        const logLevelsIds = ["trace", "debug", "info", "warning", "error", "fatal"];
+
+        logLevelsIds.map((level, index) => {
+
+            if (index + 1 < logLevels.indexOf(log_level)) {
+
+                document.getElementById(level).parentElement.classList.add("un-active-level");
+            }
+        })
+
+    }
+
+
     function loadStyles() {
+
+
 
         document.getElementsByTagName('style')[0].innerHTML += `
     
@@ -448,7 +489,7 @@
                     p.className = levelClassName + "Log";
                     //identify those message that are objects to pretify them
                     if (content.content[i].substring(0, 8) === "[object]") {
-                        console.log("es objecto")
+                        //console.log("es objecto")
                         let contenido = JSON.parse(content.content[i].substring(9));
                         p.innerHTML = `${content.dateTime[i]} -- <span class="${levelClassName}">${content.level[i]}:</span> <span class="process">[${content.process[i]}]</span> -- <pre>${JSON.stringify(contenido, null, 2)}</pre>`;
                     }
@@ -468,9 +509,30 @@
                     filterLevels()
                 }
             }
+            updateScroll();
             updateDistTable();
         }
     }
+    function updateScroll() {
+        //console.log("update scroll")
+        if (!scrolled) {
+            var element = document.getElementById("logCanvas");
+            element.scrollTop = element.scrollHeight;
+            
+        }
+    }
+
+    document.getElementById("logCanvas").addEventListener('scroll', function () {
+        
+        var element = document.getElementById("logCanvas");
+        if(element.scrollHeight - element.scrollTop === element.clientHeight && scroll){
+            scrolled = false
+        }
+        else{
+           scrolled = true; 
+        }
+        //console.log(scrolled)
+    });
 
     function httpGet() {
 

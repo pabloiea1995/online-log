@@ -12,6 +12,12 @@
 
 NPM module to generate online log for your express applications. Establishes a new end-point on `/online-log`. Main view is on `/online-log/view`
 
+*Version 0.2.0 Release Notes:*
+   
+
+ - Added support for optional console.log printing with a possibility to colour level string.
+ - Added log level selection, so entries with lower log level than configured won´t be registered.
+ - Minnor improvements on the web view. 
   
 
 [online-demo](https://autos-la-valenciana.ew.r.appspot.com/online-log/view)
@@ -455,6 +461,9 @@ In future versions there will be more options, such as authentication enable (wi
 | -- | -- | -- |
 | styles.levelsColors | Object | Defines the color of each log level |
 | memory_lines_length | Int | Set max number log entries stored on memory 
+| enable_console_print | Boolean | Enables the cosole printing of entries. By default false
+| enable_colorful_console | Boolean | Enables the color style on console printing
+| log_level | String | Established the minimum log level to register and show
 
 Example of configuration object:
 
